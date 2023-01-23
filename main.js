@@ -241,17 +241,62 @@ const pets = [
     }
   ];
 
-  const targetingApp = document.querySelector("#app");
-
-  let domString = "";
-  for (const pet of pets) {
-    domString += `<div class="card" style="width: 18rem;">
-        <img src=${pet.imageUrl} class="card-img-top" alt=${pet.name}>
-        <div class="card-body">
-          <h5 class="card-title">${pet.color}</h5>
-          <p class="card-text">${pet.specialSkill}</p>
-        </div>
-      </div>`;
-  };
+  const renderToDom = (divId, htmlToRender) => {
+    const selectedDiv = document.querySelector(divId);
+    
   
-  targetingApp.innerHTML = domString;
+    selectedDiv.innerHTML = htmlToRender;
+    
+  };
+
+  const cardsOnDom = (array) => {
+    let domString = "";
+    for (const pet of array) {
+      domString += `<div class="card border-secondary mb-3" style="width: 18rem;">
+      <img src=${pet.imageUrl} class="card-img-top">
+      <div class="card-body">
+       <h5 class="card-title">${pet.name}</h5>
+       <p class="card-text">${pet.color}</p>
+       <p class="card-text">${pet.specialSkill}</p>
+       <p class=:card-text">${pet.type}</p>
+      </div>
+    </div>`;
+  }
+  renderToDom("#app", domString);
+};
+  
+  const filter = (array, colorString) => {
+    const colorArray = [];
+  
+    for (const pet of array) {
+      if (pet.type === colorString) {
+        colorArray.push(pet);
+      }
+    }
+  
+    return colorArray;
+  };
+
+  const showAllButton = document.querySelector("#all");
+  const showCatButton = document.querySelector("#cat");
+  const showDogButton = document.querySelector("#dog")
+  const showDinoButton = document.querySelector("#dino");
+
+  showAllButton.addEventListener("click", () => {
+    cardsOnDom(pets)
+  });
+
+  showCatButton.addEventListener("click", () => {
+    const dinoPets = filter(pets, "cat");
+    cardsOnDom(dinoPets);
+  });
+
+  showDogButton.addEventListener("click", () => {
+    const dinoPets = filter(pets, "dog");
+    cardsOnDom(dinoPets);
+  });
+  
+  showDinoButton.addEventListener("click", () => {
+    const dinoPets = filter(pets, "dino");
+    cardsOnDom(dinoPets);
+  });

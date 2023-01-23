@@ -2,5 +2,6 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  flex-direction: column;
+  margin: 2%;
+  flex-direction: row;
 }
