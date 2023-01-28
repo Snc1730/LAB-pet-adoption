@@ -241,6 +241,28 @@ const pets = [
     }
   ];
 
+  const submitButton = document.querySelector('#form-submit');
+  const form = document.querySelector('form');
+
+  const createMember = (e) => {
+    e.preventDefault();
+
+    const newMemberObj = {
+      id: pets.length + 1,
+      name: document.querySelector("#name").value,
+      color: document.querySelector("#clr").value,
+      specialSkill: document.querySelector("#skill").value,
+      type: document.querySelector("#type").value,
+      image: document.querySelector("#image").value
+    }
+  
+    pets.push(newMemberObj);
+    cardsOnDom(pets);
+    document.querySelector('form').reset()
+  }
+
+  submitButton.addEventListener('click', createMember);
+
   const renderToDom = (divId, htmlToRender) => {
     const selectedDiv = document.querySelector(divId);
     
@@ -259,6 +281,7 @@ const pets = [
        <p class="card-text">${pet.color}</p>
        <p class="card-text">${pet.specialSkill}</p>
        <p class=:card-text">${pet.type}</p>
+       <button class="btn btn-danger" id="delete--${pets.id}">Delete</button>
       </div>
     </div>`;
   }
@@ -287,16 +310,33 @@ const pets = [
   });
 
   showCatButton.addEventListener("click", () => {
-    const dinoPets = filter(pets, "cat");
-    cardsOnDom(dinoPets);
+    const catPets = filter(pets, "cat");
+    cardsOnDom(catPets);
   });
 
   showDogButton.addEventListener("click", () => {
-    const dinoPets = filter(pets, "dog");
-    cardsOnDom(dinoPets);
+    const dogPets = filter(pets, "dog");
+    cardsOnDom(dogPets);
   });
   
   showDinoButton.addEventListener("click", () => {
     const dinoPets = filter(pets, "dino");
     cardsOnDom(dinoPets);
   });
+
+  const app = document.querySelector("#app");
+
+  app.addEventListener('click', (e) => {
+    if (e.target.id.includes("delete")) {
+      const [, id] = e.target.id.split("--");
+      const index = pets.findIndex(e => e.id === Number(id));
+      pets.splice(index, 1);
+      cardsOnDom(pets);
+    }
+  });
+
+  const startApp = () => {
+    cardsOnDom(pets);
+  }
+
+  startApp();
